@@ -7,6 +7,7 @@ use CommandPlanner\Wrapper\CommandWrapper;
 use Cron\CronExpression;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Process\Process;
 
 /**
  * Class CommandPlanner
@@ -66,13 +67,16 @@ class CommandPlanner
     {
         foreach ($this->commandPool->all() as $commandWrapper) {
             if ($commandWrapper->getCronExpression()->isDue()) {
-                $this->runSubCommand($commandWrapper);
+                // TODO : Handler output
+                echo $this->runSubCommand($commandWrapper);
             }
         }
     }
 
     /**
      * @param CommandWrapper $commandWrapper
+     *
+     * @return string
      */
     protected function runSubCommand(CommandWrapper $commandWrapper)
     {
@@ -82,7 +86,11 @@ class CommandPlanner
         // Merge command parameters to command namespace
         $arguments = array_merge($arguments, $commandWrapper->getParameters());
 
-        // Launch sub launcher
-        passthru('php ' . __DIR__ . '/../../bin/launcher.php ' . base64_encode(serialize($arguments)) . ' > /dev/null 2>/dev/null &');
+        // Launch sub command
+        $process = new Process('php ' . __DIR__ . '/../../bin/launcher ' . base64_encode(serialize($arguments)) . ' > /dev/null 2>/dev/null &');
+
+        $process->run();
+
+        return $process->getOutput();
     }
 }
