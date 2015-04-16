@@ -32,9 +32,12 @@ class TestCommand extends Command
         ;
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        sleep(5);
         $name = $input->getArgument('name');
         if ($name) {
             $text = 'Hello '.$name;

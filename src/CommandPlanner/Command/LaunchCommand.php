@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\StreamOutput;
 
 /**
  * Class LaunchCommand
@@ -32,6 +33,8 @@ class LaunchCommand extends Command
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
+     *
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -47,8 +50,13 @@ class LaunchCommand extends Command
         $subApplication = new Application();
         $subApplication->add($subCommand);
 
-        $subApplication->run(new ArgvInput($arguments));
+        $file = '/Applications/MAMP/htdocs/CommandPlanner/test.log';
+        $handle = fopen($file, 'a+');
 
-        exit;
+        $output->write('Launch command : ' . $arguments[1]);
+
+        $subApplication->run(new ArgvInput($arguments), new StreamOutput($handle));
+
+        fclose($handle);
     }
 }
