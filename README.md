@@ -4,25 +4,38 @@ CommandPlanner is a cron management for Symfony Console component commands.
 
 ## Example
 
+PHP File :
+
 ```php
 <?php
 
 require('vendor/autoload.php');
 
-use Symfony\Component\Console\Application;
 use CommandPlanner\CommandPlanner;
-use CommandPlanner\Tests\Data\TestCommand;
 
-$commandPlanner = new CommandPlanner(new Application());
+$commandPlanner = new CommandPlanner('config', 'config.yml');
 
-$commandPlanner
-    ->add(new TestCommand(), '* * * * * *', ['lol'])
-    ->add(new TestCommand(), '* * * * * *', ['lal', '--yell'])
-    ->run();
+$commandPlanner->run();
 ```
+
+Config File :
+
+```yml
+command_planner:
+    commands:
+        my_first_command:
+            namespace : CommandPlanner\Tests\Data\TestCommand
+            timing: '* * * * * *'
+            parameters: ['test']
+            options: ['--yell']
+            log_file: test.log
+
+    application: Symfony\Component\Console\Application
+
+```
+
+This example uses CommandPlanner\Tests\Data\TestCommand test command from this package.
 
 ## TODO
 
 * Unit testing
-* Log management
-* Exception handler

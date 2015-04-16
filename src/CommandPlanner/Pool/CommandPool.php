@@ -4,7 +4,7 @@ namespace CommandPlanner\Pool;
 
 use CommandPlanner\Wrapper\CommandWrapper;
 use Cron\CronExpression;
-use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Application;
 
 /**
  * Class CommandPool
@@ -17,17 +17,18 @@ class CommandPool
     protected $commandWrappers;
 
     /**
-     * @param Command         $command
-     * @param CronExpression  $cronExpression
-     * @param array           $parameters
+     * @param string         $commandNamespace
+     * @param CronExpression $cronExpression
+     * @param array          $commandConfig
+     * @param string         $applicationNamespace
      *
      * @return string
      */
-    public function add(Command $command, CronExpression $cronExpression, array $parameters)
+    public function add($commandNamespace, CronExpression $cronExpression, array $commandConfig, $applicationNamespace)
     {
         $uniqid = uniqid();
 
-        $this->commandWrappers[$uniqid] = new CommandWrapper($command, $cronExpression, $parameters);
+        $this->commandWrappers[$uniqid] = new CommandWrapper($commandNamespace, $cronExpression, $commandConfig, $applicationNamespace);
 
         return $uniqid;
     }

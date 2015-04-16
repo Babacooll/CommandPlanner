@@ -4,6 +4,7 @@
     "require": {
         "symfony/console": "~2.6",
         "symfony/event-dispatcher": "~2.6",
+        "symfony/config": "~2.6",
         "mtdowling/cron-expression": "~1.0",
         "symfony/process": "~2.6"
     },

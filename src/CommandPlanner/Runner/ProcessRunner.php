@@ -19,14 +19,8 @@ class ProcessRunner
      */
     public function runCommandWrapper(CommandWrapper $commandWrapper, $backgroundRun = false)
     {
-        // Pass command namespace to LaunchApplication
-        $arguments = [get_class($commandWrapper->getCommand())];
-
-        // Merge command parameters to command namespace
-        $arguments = array_merge($arguments, $commandWrapper->getParameters());
-
         // Launch sub command
-        $process = new Process($this->buildBashCommand($arguments), $backgroundRun);
+        $process = new Process($this->buildBashCommand($commandWrapper), $backgroundRun);
 
         $process->run();
 
@@ -38,14 +32,14 @@ class ProcessRunner
     }
 
     /**
-     * @param array $arguments
-     * @param bool  $backgroundRun
+     * @param CommandWrapper $commandWrapper
+     * @param bool           $backgroundRun
      *
      * @return string
      */
-    protected function buildBashCommand($arguments, $backgroundRun = false)
+    protected function buildBashCommand(CommandWrapper $commandWrapper, $backgroundRun = false)
     {
-        $command = 'php ' . __DIR__ . '/../../../bin/launcher ' . base64_encode(serialize($arguments));
+        $command = 'php ' . __DIR__ . '/../../../bin/launcher ' . base64_encode(serialize($commandWrapper));
 
         if ($backgroundRun) {
             $command .= ' > /dev/null 2>/dev/null &';

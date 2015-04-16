@@ -3,7 +3,6 @@
 namespace CommandPlanner\Wrapper;
 
 use Cron\CronExpression;
-use Symfony\Component\Console\Command\Command;
 
 /**
  * Class CommandWrapper
@@ -12,8 +11,8 @@ use Symfony\Component\Console\Command\Command;
  */
 class CommandWrapper
 {
-    /** @var Command */
-    protected $command;
+    /** @var string */
+    protected $commandNamespace;
 
     /** @var CronExpression */
     protected $cronExpression;
@@ -21,24 +20,37 @@ class CommandWrapper
     /** @var array */
     protected $parameters;
 
+    /** @var array */
+    protected $options;
+
+    /** @var string */
+    protected $logFile;
+
+    /** @var string */
+    protected $applicationNamespace;
+
     /**
-     * @param Command         $command
-     * @param CronExpression  $cronExpression
-     * @param array           $parameters
+     * @param string         $commandNamespace
+     * @param CronExpression $cronExpression
+     * @param array          $commandConfig
+     * @param string         $applicationNamespace
      */
-    public function __construct(Command $command, CronExpression $cronExpression, array $parameters)
+    public function __construct($commandNamespace, CronExpression $cronExpression, array $commandConfig, $applicationNamespace)
     {
-        $this->command = $command;
+        $this->commandNamespace = $commandNamespace;
         $this->cronExpression = $cronExpression;
-        $this->parameters = $parameters;
+        $this->parameters = $commandConfig['parameters'];
+        $this->options = $commandConfig['options'];
+        $this->logFile = $commandConfig['log_file'];
+        $this->applicationNamespace = $applicationNamespace;
     }
 
     /**
-     * @return Command
+     * @return string
      */
-    public function getCommand()
+    public function getCommandNamespace()
     {
-        return $this->command;
+        return $this->commandNamespace;
     }
 
     /**
@@ -55,5 +67,29 @@ class CommandWrapper
     public function getParameters()
     {
         return $this->parameters;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLogFile()
+    {
+        return $this->logFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApplicationNamespace()
+    {
+        return $this->applicationNamespace;
     }
 }
