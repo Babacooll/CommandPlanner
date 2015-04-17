@@ -4,7 +4,6 @@ namespace CommandPlanner\Pool;
 
 use CommandPlanner\Wrapper\CommandWrapper;
 use Cron\CronExpression;
-use Symfony\Component\Console\Application;
 
 /**
  * Class CommandPool

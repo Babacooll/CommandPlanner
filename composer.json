@@ -1,6 +1,7 @@
 {
     "name": "babacooll/command-planner",
     "description": "Command cron planner",
+    "license": "MIT",
     "require": {
         "symfony/console": "~2.6",
         "symfony/event-dispatcher": "~2.6",
