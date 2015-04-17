@@ -28,7 +28,7 @@ class ProcessRunner
         if (!$backgroundRun) {
             $output = new ConsoleOutput();
 
-            $output->writeln('<bg=green;options=bold;fg=black>' . $process->getOutput() . '</bg=green;options=bold;fg=black>');
+            $output->writeln('<options=bold>' . $process->getOutput() . '</options=bold;>');
         }
     }
 
