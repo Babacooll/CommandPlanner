@@ -1,3 +1,5 @@
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/abc4ec8f-3827-42e6-8eea-81a995aa0b1b/mini.png)](https://insight.sensiolabs.com/projects/abc4ec8f-3827-42e6-8eea-81a995aa0b1b)
+
 # CommandPlanner
 
 CommandPlanner is a cron management for Symfony Console component commands.
