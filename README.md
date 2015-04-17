@@ -39,3 +39,4 @@ This example uses CommandPlanner\Tests\Data\TestCommand test command from this p
 ## TODO
 
 * Unit testing
+* Exception handler

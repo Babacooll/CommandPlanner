@@ -2,6 +2,7 @@
 
 namespace CommandPlanner\Runner;
 
+use CommandPlanner\Encoder\CommandWrapperEncoder;
 use CommandPlanner\Wrapper\CommandWrapper;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Process\Process;
@@ -39,7 +40,7 @@ class ProcessRunner
      */
     protected function buildBashCommand(CommandWrapper $commandWrapper, $backgroundRun = false)
     {
-        $command = 'php ' . __DIR__ . '/../../../bin/launcher ' . base64_encode(serialize($commandWrapper));
+        $command = 'php ' . __DIR__ . '/../../../bin/launcher ' . CommandWrapperEncoder::encode($commandWrapper);
 
         if ($backgroundRun) {
             $command .= ' > /dev/null 2>/dev/null &';

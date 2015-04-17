@@ -2,6 +2,7 @@
 
 namespace CommandPlanner\Command;
 
+use CommandPlanner\Encoder\CommandWrapperEncoder;
 use CommandPlanner\Wrapper\CommandWrapper;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -39,28 +40,42 @@ class LaunchCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var CommandWrapper $commandWrapper */
-        $commandWrapper = unserialize(base64_decode($input->getArgument('subCommandArguments')));
+        $commandWrapper = CommandWrapperEncoder::decode($input->getArgument('subCommandArguments'));
 
         $commandNamespace = $commandWrapper->getCommandNamespace();
-        /** @var Command $subCommand */
-        $subCommand     = new $commandNamespace();
 
-        $arguments      = array_merge($commandWrapper->getParameters(), $commandWrapper->getOptions());
-        $arguments      = array_merge([null, $subCommand->getName()], $arguments);
+        /** @var Command $subCommand */
+        $subCommand = new $commandNamespace();
 
         $subApplicationNamespace = $commandWrapper->getApplicationNamespace();
+
         /** @var Application $subApplication */
         $subApplication = new $subApplicationNamespace();
+
+        $subApplication->setAutoExit(false);
 
         $subApplication->add($subCommand);
 
         $handle = fopen($commandWrapper->getLogFile(), 'a+');
 
-        $output->write('Launch command : ' . $arguments[1]);
+        $arguments = $this->getArguments($subCommand, $commandWrapper);
+        $output->writeln('Launch command : ' . $arguments[1]);
 
         $subApplication->run(new ArgvInput($arguments), new StreamOutput($handle));
 
         fclose($handle);
+    }
+
+    /**
+     * @param Command        $command
+     * @param CommandWrapper $commandWrapper
+     *
+     * @return array
+     */
+    protected function getArguments(Command $command, CommandWrapper $commandWrapper)
+    {
+        $arguments = array_merge($commandWrapper->getParameters(), $commandWrapper->getOptions());
+
+        return array_merge([null, $command->getName()], $arguments);
     }
 }

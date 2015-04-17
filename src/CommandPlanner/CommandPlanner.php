@@ -13,7 +13,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
 
 /**
  * Class CommandPlanner
@@ -50,14 +49,9 @@ class CommandPlanner
         $this->config = $processedConfiguration;
 
         /** @var Application $application */
-        $application = new $this->config['application']();
+        $this->application = new $this->config['application']();
 
-        $application->setAutoExit(false);
-
-        $this->application = $application;
-
-        $this->commandPool = new CommandPool();
-
+        $this->application->setAutoExit(false);
 
         $this->initCommandsFromConfig();
     }
@@ -110,8 +104,13 @@ class CommandPlanner
         $runner->runCommandWrapper($commandWrapper);
     }
 
+    /**
+     * Init commands from the config file
+     */
     protected function initCommandsFromConfig()
     {
+        $this->commandPool = new CommandPool();
+
         foreach ($this->config['commands'] as $command) {
             $this->add($command['namespace'], $command['timing'], $command);
         }
