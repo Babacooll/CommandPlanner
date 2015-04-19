@@ -17,17 +17,17 @@ class CommandPool
 
     /**
      * @param string         $commandNamespace
+     * @param string         $applicationNamespace
      * @param CronExpression $cronExpression
      * @param array          $commandConfig
-     * @param string         $applicationNamespace
      *
      * @return string
      */
-    public function add($commandNamespace, CronExpression $cronExpression, array $commandConfig, $applicationNamespace)
+    public function add($commandNamespace, $applicationNamespace, CronExpression $cronExpression, array $commandConfig)
     {
         $uniqid = uniqid();
 
-        $this->commandWrappers[$uniqid] = new CommandWrapper($commandNamespace, $cronExpression, $commandConfig, $applicationNamespace);
+        $this->commandWrappers[$uniqid] = new CommandWrapper($commandNamespace, $applicationNamespace, $cronExpression, $commandConfig);
 
         return $uniqid;
     }

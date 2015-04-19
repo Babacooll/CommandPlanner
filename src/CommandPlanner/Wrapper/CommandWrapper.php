@@ -31,18 +31,22 @@ class CommandWrapper
 
     /**
      * @param string         $commandNamespace
+     * @param string         $applicationNamespace
      * @param CronExpression $cronExpression
      * @param array          $commandConfig
-     * @param string         $applicationNamespace
      */
-    public function __construct($commandNamespace, CronExpression $cronExpression, array $commandConfig, $applicationNamespace)
+    public function __construct($commandNamespace, $applicationNamespace, CronExpression $cronExpression, array $commandConfig)
     {
+        if (!isset($commandConfig['parameters']) || !isset($commandConfig['options']) || !isset($commandConfig['log_file'])) {
+            throw new \InvalidArgumentException('Invalid command configuration');
+        }
+
         $this->commandNamespace = $commandNamespace;
+        $this->applicationNamespace = $applicationNamespace;
         $this->cronExpression = $cronExpression;
         $this->parameters = $commandConfig['parameters'];
         $this->options = $commandConfig['options'];
         $this->logFile = $commandConfig['log_file'];
-        $this->applicationNamespace = $applicationNamespace;
     }
 
     /**

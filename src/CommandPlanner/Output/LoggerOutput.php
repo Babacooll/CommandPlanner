@@ -74,14 +74,9 @@ class LoggerOutput extends Output
     }
 
     /**
-     * Returns true if the stream supports colorization.
+     * File logging does not support color
      *
-     * Colorization is disabled if not supported by the stream:
-     *
-     *  -  Windows without Ansicon and ConEmu
-     *  -  non tty consoles
-     *
-     * @return bool true if the stream supports colorization, false otherwise
+     * @return bool
      */
     protected function hasColorSupport()
     {

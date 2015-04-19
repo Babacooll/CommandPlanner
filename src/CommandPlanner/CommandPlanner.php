@@ -65,7 +65,7 @@ class CommandPlanner
      */
     public function add($commandNamespace, $timer, array $commandConfig)
     {
-        $this->commandPool->add($commandNamespace, CronExpression::factory($timer), $commandConfig, $this->config['application']);
+        $this->commandPool->add($commandNamespace, $this->config['application'], CronExpression::factory($timer), $commandConfig);
 
         return $this;
     }
