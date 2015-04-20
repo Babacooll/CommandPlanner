@@ -5,7 +5,9 @@ namespace CommandPlanner\Runner;
 use CommandPlanner\Encoder\CommandWrapperEncoder;
 use CommandPlanner\Wrapper\CommandWrapper;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
 
 /**
  * Class ProcessRunner
@@ -21,7 +23,7 @@ class ProcessRunner
     public function runCommandWrapper(CommandWrapper $commandWrapper, $backgroundRun = false)
     {
         // Launch sub command
-        $process = new Process($this->buildBashCommand($commandWrapper), $backgroundRun);
+        $process = $this->buildBashCommand($commandWrapper);
 
         $process->run();
 
@@ -36,16 +38,24 @@ class ProcessRunner
      * @param CommandWrapper $commandWrapper
      * @param bool           $backgroundRun
      *
-     * @return string
+     * @return Process
      */
     protected function buildBashCommand(CommandWrapper $commandWrapper, $backgroundRun = false)
     {
-        $command = 'php ' . __DIR__ . '/../../../bin/launcher ' . CommandWrapperEncoder::encode($commandWrapper);
+        $finder = new PhpExecutableFinder();
+        $php = $finder->find();
+
+        $processBuilder = new ProcessBuilder();
+
+        $process = $processBuilder
+            ->add($php)
+            ->add(__DIR__ . '/../../../bin/launcher')
+            ->add(CommandWrapperEncoder::encode($commandWrapper));
 
         if ($backgroundRun) {
-            $command .= ' > /dev/null 2>/dev/null &';
+            $process->add('> /dev/null 2>/dev/null &');
         }
 
-        return $command;
+        return $process->getProcess();
     }
 }
