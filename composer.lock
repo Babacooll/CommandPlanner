@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8259dcf2a69b0b52d6e0a8f74d017592",
+    "hash": "d4bb33495b33f63b122783600ba00571",
     "packages": [
         {
             "name": "mtdowling/cron-expression",
