@@ -12,14 +12,19 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.6"
-},
-  "autoload": {
-    "psr-0": { "CommandPlanner": "src/" }
-  },
+    },
+    "autoload": {
+      "psr-0": { "CommandPlanner": "src/" }
+    },
     "authors": [
         {
             "name": "Babacooll",
             "email": "michael.garrez@gmail.com"
         }
-    ]
+    ],
+    "extra": {
+      "branch-alias": {
+        "dev-master": "0.0.1"
+      }
+    }
 }
