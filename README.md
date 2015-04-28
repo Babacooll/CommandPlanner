@@ -3,6 +3,17 @@
 # CommandPlanner
 
 CommandPlanner is a cron management for Symfony Console component commands.
+
+## Installation
+
+CommandPlanner is available through composer :
+
+```Shell
+$ php composer.phar require babacooll/command-planner ~0.0.1
+```
+
+## Usage
+
 You can load method in CommandPlanner by two ways :
 
 ## Example inline
