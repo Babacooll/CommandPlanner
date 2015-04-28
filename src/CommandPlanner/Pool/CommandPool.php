@@ -3,7 +3,6 @@
 namespace CommandPlanner\Pool;
 
 use CommandPlanner\Wrapper\CommandWrapper;
-use Cron\CronExpression;
 
 /**
  * Class CommandPool
@@ -16,18 +15,15 @@ class CommandPool
     protected $commandWrappers;
 
     /**
-     * @param string         $commandNamespace
-     * @param string         $applicationNamespace
-     * @param CronExpression $cronExpression
-     * @param array          $commandConfig
+     * @param CommandWrapper $commandWrapper
      *
      * @return string
      */
-    public function add($commandNamespace, $applicationNamespace, CronExpression $cronExpression, array $commandConfig)
+    public function add(CommandWrapper $commandWrapper)
     {
         $uniqid = uniqid();
 
-        $this->commandWrappers[$uniqid] = new CommandWrapper($commandNamespace, $applicationNamespace, $cronExpression, $commandConfig);
+        $this->commandWrappers[$uniqid] = $commandWrapper;
 
         return $uniqid;
     }

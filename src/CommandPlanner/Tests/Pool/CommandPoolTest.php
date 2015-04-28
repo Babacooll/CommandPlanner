@@ -28,7 +28,7 @@ class CommandPoolTest extends \PHPUnit_Framework_TestCase
             'log_file'   => []
         ];
 
-        $uniqid = $commandPool->add(get_class(new TestCommand()), get_class(new Application()), CronExpression::factory('* * * * * *'), $commandConfig);
+        $uniqid = $commandPool->add(new CommandWrapper(get_class(new TestCommand()), get_class(new Application()), CronExpression::factory('* * * * * *'), $commandConfig));
 
         $this->assertEquals(13, strlen($uniqid));
     }
@@ -57,7 +57,7 @@ class CommandPoolTest extends \PHPUnit_Framework_TestCase
             'log_file'   => []
         ];
 
-        $uniqid = $commandPool->add(get_class(new TestCommand()), get_class(new Application()), CronExpression::factory('* * * * * *'), $commandConfig);
+        $uniqid = $commandPool->add(new CommandWrapper(get_class(new TestCommand()), get_class(new Application()), CronExpression::factory('* * * * * *'), $commandConfig));
 
         $this->assertInstanceOf('CommandPlanner\Wrapper\CommandWrapper', $commandPool->get($uniqid));
     }
@@ -87,7 +87,7 @@ class CommandPoolTest extends \PHPUnit_Framework_TestCase
             'log_file'   => []
         ];
 
-        $uniqid = $commandPool->add(get_class(new TestCommand()), get_class(new Application()), CronExpression::factory('* * * * * *'), $commandConfig);
+        $uniqid = $commandPool->add(new CommandWrapper(get_class(new TestCommand()), get_class(new Application()), CronExpression::factory('* * * * * *'), $commandConfig));
 
         $commandPool->remove($uniqid);
 
@@ -107,8 +107,8 @@ class CommandPoolTest extends \PHPUnit_Framework_TestCase
             'log_file'   => []
         ];
 
-        $commandPool->add(get_class(new TestCommand()), get_class(new Application()), CronExpression::factory('* * * * * *'), $commandConfig);
-        $commandPool->add(get_class(new TestCommand()), get_class(new Application()), CronExpression::factory('* * * * * *'), $commandConfig);
+        $commandPool->add(new CommandWrapper(get_class(new TestCommand()), get_class(new Application()), CronExpression::factory('* * * * * *'), $commandConfig));
+        $commandPool->add(new CommandWrapper(get_class(new TestCommand()), get_class(new Application()), CronExpression::factory('* * * * * *'), $commandConfig));
 
         $commandWrappers = $commandPool->all();
 

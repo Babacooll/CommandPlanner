@@ -27,14 +27,27 @@ class CommandPlanner
     /** @var CommandPool */
     protected $commandPool;
 
+    /** @var array */
+    protected $config;
+
     /**
-     * @param string      $configDirectory
-     * @param string      $configFile
+     * Init CommandPool
+     */
+    public function __construct()
+    {
+        $this->commandPool = new CommandPool();
+    }
+
+    /**
+     * @param string $configExpression
      *
      * @throws \Symfony\Component\Config\Exception\FileLoaderLoadException
      */
-    public function __construct($configDirectory, $configFile)
+    public function addCommandsFromConfig($configExpression)
     {
+        $configFile       = basename($configExpression);
+        $configDirectory  = dirname($configExpression);
+
         $locator          = new FileLocator([$configDirectory]);
         $loaderResolver   = new LoaderResolver([new YamlConfigLoader($locator)]);
         $delegatingLoader = new DelegatingLoader($loaderResolver);
@@ -51,21 +64,21 @@ class CommandPlanner
         /** @var Application $application */
         $this->application = new $this->config['application']();
 
-        $this->application->setAutoExit(false);
+        $this->application->setAutoExit(false);;
 
-        $this->initCommandsFromConfig();
+        foreach ($this->config['commands'] as $command) {
+            $this->add(new CommandWrapper($command['namespace'], $this->config['application'], CronExpression::factory($command['timing']), $command));
+        }
     }
 
     /**
-     * @param string  $commandNamespace
-     * @param string  $timer
-     * @param array   $commandConfig
+     * @param CommandWrapper $commandWrapper
      *
-     * @return $this
+     * @return CommandPlanner
      */
-    public function add($commandNamespace, $timer, array $commandConfig)
+    public function add(CommandWrapper $commandWrapper)
     {
-        $this->commandPool->add($commandNamespace, $this->config['application'], CronExpression::factory($timer), $commandConfig);
+        $this->commandPool->add($commandWrapper);
 
         return $this;
     }
@@ -102,17 +115,5 @@ class CommandPlanner
         $runner = new ProcessRunner($commandWrapper);
 
         $runner->runCommandWrapper($commandWrapper);
-    }
-
-    /**
-     * Init commands from the config file
-     */
-    protected function initCommandsFromConfig()
-    {
-        $this->commandPool = new CommandPool();
-
-        foreach ($this->config['commands'] as $command) {
-            $this->add($command['namespace'], $command['timing'], $command);
-        }
     }
 }

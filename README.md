@@ -3,8 +3,9 @@
 # CommandPlanner
 
 CommandPlanner is a cron management for Symfony Console component commands.
+You can load method in CommandPlanner by two ways :
 
-## Example
+## Example inline
 
 PHP File :
 
@@ -15,7 +16,38 @@ require('vendor/autoload.php');
 
 use CommandPlanner\CommandPlanner;
 
-$commandPlanner = new CommandPlanner('config', 'config.yml');
+$commandPlanner = new CommandPlanner();
+
+$commandPlanner->add(
+    new \CommandPlanner\Wrapper\CommandWrapper(
+        'CommandPlanner\Tests\Data\TestCommand',
+        'Symfony\Component\Console\Application',
+        \Cron\CronExpression::factory('* * * * *'),
+        [
+            'parameters' => ['test'],
+            'log_file'   => 'test.log',
+            'options'    => []
+        ]
+    )
+);
+
+$commandPlanner->run();
+```
+
+## Example from config
+
+PHP File :
+
+```php
+<?php
+
+require('vendor/autoload.php');
+
+use CommandPlanner\CommandPlanner;
+
+$commandPlanner = new CommandPlanner();
+
+$commandPlanner->addCommandsFromConfig('config/config.yml');
 
 $commandPlanner->run();
 ```
@@ -36,7 +68,7 @@ command_planner:
 
 ```
 
-This example uses CommandPlanner\Tests\Data\TestCommand test command from this package.
+These examples use CommandPlanner\Tests\Data\TestCommand test command from this package.
 
 ## TODO
 
