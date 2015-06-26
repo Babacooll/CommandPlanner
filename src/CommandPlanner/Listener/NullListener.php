@@ -2,8 +2,6 @@
 
 namespace CommandPlanner\Listener;
 
-use Symfony\Component\EventDispatcher\Event;
-
 /**
  * Class NullListener
  *
@@ -11,9 +9,6 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class NullListener
 {
-    /**
-     * @param Event $event
-     */
     public function onExceptionListener()
     {
     }
