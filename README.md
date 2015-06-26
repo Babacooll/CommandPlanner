@@ -1,6 +1,9 @@
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/abc4ec8f-3827-42e6-8eea-81a995aa0b1b/mini.png)](https://insight.sensiolabs.com/projects/abc4ec8f-3827-42e6-8eea-81a995aa0b1b)
-
 # CommandPlanner
+
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/abc4ec8f-3827-42e6-8eea-81a995aa0b1b/mini.png)](https://insight.sensiolabs.com/projects/abc4ec8f-3827-42e6-8eea-81a995aa0b1b)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Babacooll/CommandPlanner/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Babacooll/CommandPlanner/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/Babacooll/CommandPlanner/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Babacooll/CommandPlanner/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/Babacooll/CommandPlanner/badges/build.png?b=master)](https://scrutinizer-ci.com/g/Babacooll/CommandPlanner/build-status/master)
 
 CommandPlanner is a cron management for Symfony Console component commands.
 
