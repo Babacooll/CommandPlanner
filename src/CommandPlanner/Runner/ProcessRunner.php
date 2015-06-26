@@ -45,6 +45,10 @@ class ProcessRunner
         $finder = new PhpExecutableFinder();
         $php = $finder->find();
 
+        if ($php === false) {
+            throw new \Exception('Unable to find PHP executable');
+        }
+
         $processBuilder = new ProcessBuilder();
 
         $process = $processBuilder

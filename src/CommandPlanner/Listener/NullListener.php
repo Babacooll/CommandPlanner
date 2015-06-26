@@ -14,7 +14,7 @@ class NullListener
     /**
      * @param Event $event
      */
-    public function onExceptionListener(Event $event)
+    public function onExceptionListener()
     {
     }
 }

@@ -54,7 +54,7 @@ class LaunchCommand extends Command
 
         $exitCode = $subApplication->run(new ArgvInput($arguments), new LoggerOutput($logger));
 
-        if ($exitCode == 0) {
+        if ($exitCode === 0) {
             $output->writeln('-> Success');
         } else {
             $output->writeln('-> Failure');
